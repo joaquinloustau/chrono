@@ -8,6 +8,8 @@ var ENTimeAgoFormatParser = require('./parsers/EN/ENTimeAgoFormatParser').Parser
 var ENTimeExpessionParser = require('./parsers/EN/ENTimeExpressionParser').Parser;
 var ENWeekdayParser = require('./parsers/EN/ENWeekdayParser').Parser;
 var ENCasualDateParser = require('./parsers/EN/ENCasualDateParser').Parser;
+var ENHolidayParser = require('./parsers/EN/ENHolidayParser').Parser;
+
 
 var ENMergeDateTimeRefiner = require('./refiners/EN/ENMergeDateTimeRefiner').Refiner;
 var ENMergeDateRangeRefiner = require('./refiners/EN/ENMergeDateRangeRefiner').Refiner;
@@ -39,6 +41,7 @@ exports.strictOption = function () {
             new ENSlashDateFormatParser(),
             new ENTimeAgoFormatParser(),           
             new ENTimeExpessionParser(),
+            new ENHolidayParser(),
 
             // JP
             new JPStandardParser(),

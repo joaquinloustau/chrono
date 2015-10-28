@@ -69,7 +69,13 @@ exports.Parser = function ENCasualDateParser(){
             }
         }
 
-        result.start.assign('day', startMoment.date())
+        if (result.start.get('meridiem') == 1 && result.end.get('meridiem') == 0) {
+            result.start.assign('day', startMoment.date());
+            result.end.assign('day', startMoment.date() + 1);
+        } else {
+            result.start.assign('day', startMoment.date() + 4);
+        }
+       
         result.start.assign('month', startMoment.month() + 1)
         result.start.assign('year', startMoment.year())
         result.tags['ENCasualDateParser'] = true;

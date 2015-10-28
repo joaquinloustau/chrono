@@ -58,7 +58,7 @@ exports.Parser = function ENTimeExpressionParser(){
         result.start.imply('day',   refMoment.date());
         result.start.imply('month', refMoment.month()+1);
         result.start.imply('year',  refMoment.year());
-        
+
         var hour = 0;
         var minute = 0;
         var meridiem = -1;
@@ -192,6 +192,9 @@ exports.Parser = function ENTimeExpressionParser(){
                         result.end.imply('day', result.end.get('day') + 1);
                     }
                 }
+                if (result.start.get('meridiem') == 1) {
+                    result.end.imply('day', result.end.get('day') + 1);
+                }
             }
             
             if(match[AM_PM_HOUR_GROUP].replace(".", "").toLowerCase() == "pm"){
@@ -201,8 +204,10 @@ exports.Parser = function ENTimeExpressionParser(){
             
             if (!result.start.isCertain('meridiem')) {
                 if (meridiem == 0) {
-                    
-                    result.start.imply('meridiem', 0);
+
+                    if (result.start.get('hour') < hour) {
+                        result.start.imply('meridiem', 0);
+                    } 
                     
                     if (result.start.get('hour') == 12) {
                         result.start.assign('hour', 0);
@@ -210,15 +215,43 @@ exports.Parser = function ENTimeExpressionParser(){
 
                 } else {
 
-                    result.start.imply('meridiem', 1);
-                    
-                    if (result.start.get('hour') != 12) {
+                    if (hour - 12 < result.start.get('hour')) {
+                        result.start.imply('meridiem', 0);
+                    } else {
+                        result.start.imply('meridiem', 1);
+                    }
+
+                    if (result.start.get('hour') != 12 && result.start.get('meridiem') == 1) {
                         result.start.assign('hour', result.start.get('hour') + 12); 
                     }
                 }
             }
+        } else {
+            if (result.start.get('meridiem') == 0) {
+                if (hour >= 12) {
+                    meridiem = 1;
+                } else {
+                    if (hour < result.start.get('hour')) {
+                        meridiem = 1;
+                    } else {
+                        meridiem = 0;
+                    }
+                }
+            } else {
+                if (hour >= 12) {
+                    meridiem = 1;
+                    result.end.imply('day', result.end.get('day') + 1);
+                } else {
+                    if (hour < result.start.get('hour') - 12) {
+                        meridiem = 0;
+                        result.end.imply('day', result.end.get('day') + 1);
+                    } else {
+                        meridiem = 1;
+                    }
+                }
+            }
         }
-        
+
         if(hour >= 12) meridiem = 1;
         result.text = result.text + match[0];
         result.end.assign('hour', hour);
@@ -226,7 +259,6 @@ exports.Parser = function ENTimeExpressionParser(){
         if (meridiem >= 0) {
             result.end.assign('meridiem', meridiem);
         }
-        
         return result;
     }
 }
