@@ -4,7 +4,7 @@
 */
 
 var moment = require('moment');
-var hollidayCalc = require('../../hollidayCalculator');
+var holidayCalc = require('../../holidayCalculator');
 var Parser = require('../parser').Parser;
 var ParsedResult = require('../../result').ParsedResult;
 
@@ -25,7 +25,7 @@ exports.Parser = function ENCasualDateParser(){
     
     this.extract = function(text, ref, match, opt){ 
         
-        var holliday;
+        var holiday;
         var index = match.index;
         var text = match[0];
         var result = new ParsedResult({
@@ -44,24 +44,24 @@ exports.Parser = function ENCasualDateParser(){
             result.start.imply('year', result.start.get('year') + 1);
 
         } else if (lowerText == 'mlk day') {
-            holliday = hollidayCalc.calculateDay(0, 1, 3, 1);
-            result.start.imply('day', holliday.date());
-            result.start.imply('month', holliday.month() + 1);
+            holiday = holidayCalc.calculateDay(0, 1, 3, 1);
+            result.start.imply('day', holiday.date());
+            result.start.imply('month', holiday.month() + 1);
 
         } else if(lowerText == 'president\'s day' || lowerText == 'presidents day' || lowerText == 'presidents\' day') {
-            holliday = hollidayCalc.calculateDay(0, 2, 3, 1);
-            result.start.imply('day', holliday.date());
-            result.start.imply('month', holliday.month() + 1);
+            holiday = holidayCalc.calculateDay(0, 2, 3, 1);
+            result.start.imply('day', holiday.date());
+            result.start.imply('month', holiday.month() + 1);
 
         } else if (lowerText == 'memorial day') {
-            holliday = hollidayCalc.calculateDay(-1, 5, 1, 1);
-            result.start.imply('day', holliday.date());
-            result.start.imply('month', holliday.month() + 1);
+            holiday = holidayCalc.calculateDay(-1, 5, 1, 1);
+            result.start.imply('day', holiday.date());
+            result.start.imply('month', holiday.month() + 1);
 
         } else if (lowerText == 'armed forces day' || lowerText == 'armed forces\' day' || lowerText == 'armed force\'s day') {
-            holliday = hollidayCalc.calculateDay(0, 5, 3, 6);
-            result.start.imply('day', holliday.date());
-            result.start.imply('month', holliday.month() + 1);
+            holiday = holidayCalc.calculateDay(0, 5, 3, 6);
+            result.start.imply('day', holiday.date());
+            result.start.imply('month', holiday.month() + 1);
 
         } else if (lowerText == 'flag day') {
             result.start.imply('day', 14);
@@ -72,14 +72,14 @@ exports.Parser = function ENCasualDateParser(){
             result.start.imply('month', 7);
 
         } else if (lowerText == 'labor day') {
-            holliday = hollidayCalc.calculateDay(0, 9, 1, 1);
-            result.start.imply('day', holliday.date());
-            result.start.imply('month', holliday.month() + 1);
+            holiday = holidayCalc.calculateDay(0, 9, 1, 1);
+            result.start.imply('day', holiday.date());
+            result.start.imply('month', holiday.month() + 1);
 
         } else if (lowerText == 'columbus day' || lowerText == 'columbus\' day') {
-            holliday = hollidayCalc.calculateDay(0, 10, 2, 1);
-            result.start.imply('day', holliday.date());
-            result.start.imply('month', holliday.month() + 1);
+            holiday = holidayCalc.calculateDay(0, 10, 2, 1);
+            result.start.imply('day', holiday.date());
+            result.start.imply('month', holiday.month() + 1);
 
         } else if (lowerText == 'halloween') {
             result.start.imply('day', 31);
@@ -90,9 +90,9 @@ exports.Parser = function ENCasualDateParser(){
             result.start.imply('month', 11);
 
         } else if (lowerText == 'thanksgiving') {
-            holliday = hollidayCalc.calculateDay(0, 11, 4, 4);
-            result.start.imply('day', holliday.date());
-            result.start.imply('month', holliday.month() + 1);
+            holiday = holidayCalc.calculateDay(0, 11, 4, 4);
+            result.start.imply('day', holiday.date());
+            result.start.imply('month', holiday.month() + 1);
 
         } else if (lowerText == 'christmas' || lowerText == 'xmas') {
             result.start.imply('day', 25);

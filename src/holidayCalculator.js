@@ -10,18 +10,18 @@ var moment = require('moment');
 function calculateDay(index, month, weekOfMonth, dayOfWeek ){
 
     if (index == 0) {
-        holliday = moment().month((month - 1)).date(1);
-        if (holliday.day() > dayOfWeek) {
-            holliday = holliday.day(dayOfWeek).add(weekOfMonth, 'weeks');
+        holiday = moment().month((month - 1)).date(1);
+        if (holiday.day() > dayOfWeek) {
+            holiday = holiday.day(dayOfWeek).add(weekOfMonth, 'weeks');
         } else {
-            holliday =holliday.day(dayOfWeek).add((weekOfMonth - 1), 'weeks');
+            holiday =holiday.day(dayOfWeek).add((weekOfMonth - 1), 'weeks');
         }
 
     } else {
-        holliday = moment().month(month).date(1).day(dayOfWeek).subtract(weekOfMonth, 'weeks');
+        holiday = moment().month(month).date(1).day(dayOfWeek).subtract(weekOfMonth, 'weeks');
     }
 
-    return holliday;
+    return holiday;
 }
 
 exports.calculateDay = calculateDay;
