@@ -73,7 +73,7 @@ exports.Parser = function ENCasualDateParser(){
             result.start.assign('day', startMoment.date());
             result.end.assign('day', startMoment.date() + 1);
         } else {
-            result.start.assign('day', startMoment.date() + 1);
+            result.start.assign('day', startMoment.date());
         }
        
         result.start.assign('month', startMoment.month() + 1)
