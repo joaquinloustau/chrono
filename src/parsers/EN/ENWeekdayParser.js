@@ -74,7 +74,6 @@ exports.Parser = function ENWeekdayParser() {
             result.end.imply('month', startMoment.month() + 1)
             result.end.imply('year', startMoment.year())
         } else {
-            console.log('in else');
             result.start.assign('weekday', offset);
             result.start.imply('day', startMoment.date())
             result.start.imply('month', startMoment.month() + 1)
