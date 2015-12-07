@@ -1,3 +1,4 @@
+
 /*
     Date format with slash "/" (also "-" and ".") between numbers 
     - Tuesday 11/3/2015
@@ -8,7 +9,7 @@ var moment = require('moment');
 var Parser = require('../parser').Parser;
 var ParsedResult = require('../../result').ParsedResult;
 
-var PATTERN = new RegExp('(\\W|^)' + 
+var PATTERN = new RegExp('(through|\\W|^)' + 
     '((?:sun|mon|tues?|wed(?:nes)?|thu(?:rs?)?|fri|sat(?:ur)?)(?:day)?)?' +
     '\\s*\\,?\\s*' + 
     '([0-9]{1,2})[\\/\\.\\-]([0-9]{1,2})' + 
@@ -84,10 +85,16 @@ exports.Parser = function ENSlashDateFormatParser(argument) {
             }
         }
 
-        result.start.assign('day', day);
-        result.start.assign('month', month);
-        result.start.assign('year', year);
-
+        if (match[1] == 'through') {
+            result.end = result.start.clone();
+            result.end.assign('day', day)
+            result.end.assign('month', month)
+            result.end.assign('year', year)
+        } else {
+            result.start.assign('day', day);
+            result.start.assign('month', month);
+            result.start.assign('year', year);
+        }
         //Day of week
         if(match[2]) {
             result.start.assign('weekday', DAYS_OFFSET[match[2].toLowerCase()]);

@@ -8,7 +8,7 @@ var ParsedResult = require('../../result').ParsedResult;
 
 var PATTERN = new RegExp('(\\W|^)' + 
     '(?:(?:\\,|\\(|\\（)\\s*)?' + 
-    '(?:(this|last|next)\\s*)?' + 
+    '(?:(this|last|next|through)\\s*)?' + 
     '(Sunday|Sun|Monday|Mon|Tuesday|Tues|Tue|Wednesday|Wed|Thursday|Thurs|Thur|Friday|Fri|Saturday|Sat)' +
     '(?:\\s*(?:\\,|\\)|\\）))?' + 
     '(?:\\s*(this|last|next)\\s*week)?' + 
@@ -52,7 +52,7 @@ exports.Parser = function ENWeekdayParser() {
                 startMoment.day(offset - 7)
             else if(norm == 'next')
                 startMoment.day(offset + 7)
-            else if(norm== 'this')
+            else if(norm == 'this')
                 startMoment.day(offset);
         } else{
             var refOffset = startMoment.day();
@@ -66,10 +66,20 @@ exports.Parser = function ENWeekdayParser() {
             }
         }
 
-        result.start.assign('weekday', offset);
-        result.start.imply('day', startMoment.date())
-        result.start.imply('month', startMoment.month() + 1)
-        result.start.imply('year', startMoment.year())
+        if (prefix && prefix.toLowerCase() == 'through') {
+            startMoment.day(offset);
+            result.end = result.start.clone();
+            result.end.assign('weekday', offset);
+            result.end.imply('day', startMoment.date())
+            result.end.imply('month', startMoment.month() + 1)
+            result.end.imply('year', startMoment.year())
+        } else {
+            console.log('in else');
+            result.start.assign('weekday', offset);
+            result.start.imply('day', startMoment.date())
+            result.start.imply('month', startMoment.month() + 1)
+            result.start.imply('year', startMoment.year())
+        }
         return result;
     }
 }
