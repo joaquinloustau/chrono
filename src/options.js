@@ -35,6 +35,7 @@ function baseOption(strictMode) {
             // EN
             new ENISOFormatParser(strictMode),
             new ENDeadlineFormatParser(strictMode),
+            new ENHolidayParser(strictMode),
             new ENMonthNameLittleEndianParser(strictMode),
             new ENMonthNameMiddleEndianParser(strictMode),
             new ENSlashDateFormatParser(strictMode),
