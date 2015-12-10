@@ -67,7 +67,6 @@ exports.Parser = function ENWeekdayParser() {
         }
 
         if (prefix && prefix.toLowerCase() == 'through') {
-            startMoment.day(offset);
             result.end = result.start.clone();
             result.end.assign('weekday', offset);
             result.end.imply('day', startMoment.date())
